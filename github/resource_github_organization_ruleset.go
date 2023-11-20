@@ -263,6 +263,41 @@ func resourceGithubOrganizationRuleset() *schema.Resource {
 								},
 							},
 						},
+						"workflows": {
+							Type:        schema.TypeList,
+							MaxItems:    1,
+							Optional:    true,
+							Description: "Choose which workflows must pass before branches can be merged into a branch that matches this rule.",
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"workflow": {
+										Type:        schema.TypeSet,
+										MinItems:    1,
+										Required:    true,
+										Description: "Workflows that are required. Several can be defined.",
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"repository_id": {
+													Type:        schema.TypeInt,
+													Required:    true,
+													Description: "The repository ID of the workflow.",
+												},
+												"path": {
+													Type:        schema.TypeString,
+													Required:    true,
+													Description: "The path to the workflow file.",
+												},
+												"ref": {
+													Type:        schema.TypeString,
+													Required:    true,
+													Description: "The Git ref for the workflow.",
+												},
+											},
+										},
+									},
+								},
+							},
+						},
 						"non_fast_forward": {
 							Type:        schema.TypeBool,
 							Optional:    true,
